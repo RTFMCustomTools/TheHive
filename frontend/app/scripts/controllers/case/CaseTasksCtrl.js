@@ -396,7 +396,8 @@
                     if (response && _.isString(response)) {
                         NotificationSrv.log(response, 'warning');
                     } else {
-                        return CortexSrv.runResponder(response.id, response.name, 'case_task', _.pick(task, '_id'));
+                        //return CortexSrv.runResponder(response.id, response.name, 'case_task', _.pick(task, '_id'));
+                        return CortexSrv.runResponder(response.id, response.name, 'bad_case_task', $scope);
                     }
                 })
                 .then(function (response) {

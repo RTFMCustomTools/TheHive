@@ -1,0 +1,15 @@
+<form ng-submit="$modal.confirm()">
+    <div class="modal-header bg-{{$modal.config.flavor || 'primary'}}">
+        <h3 class="modal-title">{{$modal.title}}</h3>
+    </div>
+    <div ng-show="!tasksValid">
+        <div class="modal-body">
+            <div align="center" class="alert alert-danger">
+                <i class="glyphicon glyphicon-exclamation-sign"></i>
+                {{$modal.message}}
+            </div>
+        </div>
+        <div class="modal-footer text-left">
+            <button class="btn btn-default" ng-click="$modal.cancel()" type="button">Cancel</button>
+        </div>
+</form>
