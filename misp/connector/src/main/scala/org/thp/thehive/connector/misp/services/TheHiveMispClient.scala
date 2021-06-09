@@ -33,7 +33,8 @@ case class TheHiveMispClientConfig(
     exportCaseTags: Boolean = false,
     exportObservableTags: Boolean = false,
     includedTheHiveOrganisations: Seq[String] = Seq("*"),
-    excludedTheHiveOrganisations: Seq[String] = Nil
+    excludedTheHiveOrganisations: Seq[String] = Nil,
+    autoPublish: Boolean = false
 )
 
 object TheHiveMispClientConfig {
@@ -58,6 +59,7 @@ object TheHiveMispClientConfig {
       exportObservableTags         <- (JsPath \ "exportObservableTags").readWithDefault[Boolean](false)
       includedTheHiveOrganisations <- (JsPath \ "includedTheHiveOrganisations").readWithDefault[Seq[String]](Seq("*"))
       excludedTheHiveOrganisations <- (JsPath \ "excludedTheHiveOrganisations").readWithDefault[Seq[String]](Nil)
+      autoPublish                  <- (JsPath \ "autoPublish").readWithDefault[Boolean](false)
     } yield TheHiveMispClientConfig(
       name,
       url,
@@ -75,7 +77,8 @@ object TheHiveMispClientConfig {
       exportCaseTags,
       exportObservableTags,
       includedTheHiveOrganisations,
-      excludedTheHiveOrganisations
+      excludedTheHiveOrganisations,
+      autoPublish
     )
   }
   val writes: Writes[TheHiveMispClientConfig] = Writes[TheHiveMispClientConfig] { cfg =>
@@ -93,7 +96,8 @@ object TheHiveMispClientConfig {
       "tags"                         -> cfg.observableTags,
       "exportCaseTags"               -> cfg.exportCaseTags,
       "includedTheHiveOrganisations" -> cfg.includedTheHiveOrganisations,
-      "excludedTheHiveOrganisations" -> cfg.excludedTheHiveOrganisations
+      "excludedTheHiveOrganisations" -> cfg.excludedTheHiveOrganisations,
+      "autoPublish"                  -> cfg.autoPublish
     )
   }
   implicit val format: Format[TheHiveMispClientConfig] = Format[TheHiveMispClientConfig](reads, writes)
@@ -116,7 +120,8 @@ class TheHiveMispClient(
     val exportCaseTags: Boolean,
     val exportObservableTags: Boolean,
     includedTheHiveOrganisations: Seq[String],
-    excludedTheHiveOrganisations: Seq[String]
+    excludedTheHiveOrganisations: Seq[String],
+    val autoPublish: Boolean
 ) extends MispClient(
       name,
       baseUrl,
@@ -148,7 +153,8 @@ class TheHiveMispClient(
       config.exportCaseTags,
       config.exportObservableTags,
       config.includedTheHiveOrganisations,
-      config.excludedTheHiveOrganisations
+      config.excludedTheHiveOrganisations,
+      config.autoPublish
     )
 
   val (canImport, canExport) = purpose match {

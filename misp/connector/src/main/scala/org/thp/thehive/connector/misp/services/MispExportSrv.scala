@@ -131,7 +131,7 @@ class MispExportSrv @Inject() (
       info = `case`.title,
       date = `case`.startDate,
       threatLevel = math.min(4, math.max(1, 4 - `case`.severity)),
-      published = false,
+      published = client.autoPublish,
       analysis = 0,
       distribution = 0,
       attributes = attributes,
