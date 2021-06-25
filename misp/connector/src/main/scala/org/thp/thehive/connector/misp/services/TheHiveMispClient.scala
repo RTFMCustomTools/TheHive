@@ -11,10 +11,12 @@ import org.thp.thehive.models.{HealthStatus, Organisation}
 import play.api.libs.json._
 import play.api.libs.ws.WSClient
 import play.api.libs.ws.ahc.AhcWSClientConfig
-
 import javax.inject.Inject
+
 import scala.concurrent.duration.Duration
 import scala.concurrent.{ExecutionContext, Future}
+import scala.tools.nsc.profile.EventType.value
+import scala.util.Try
 
 case class TheHiveMispClientConfig(
     name: String,
@@ -121,7 +123,7 @@ class TheHiveMispClient(
     val exportObservableTags: Boolean,
     includedTheHiveOrganisations: Seq[String],
     excludedTheHiveOrganisations: Seq[String],
-    val autoPublish: Boolean
+    var autoPublish: Boolean
 ) extends MispClient(
       name,
       baseUrl,
@@ -178,4 +180,12 @@ class TheHiveMispClient(
     getVersion
       .map(_ => HealthStatus.Ok)
       .recover { case _ => HealthStatus.Error }
+
+
+  def updateAutoPublish(value: Boolean): Unit = {
+
+    this.autoPublish = value
+
+  }
+
 }
