@@ -119,7 +119,8 @@
                 },
 
                 export: function(caseId, server) {
-                    return $http.post(baseUrl + '/export/' + caseId + '/' + server, {});
+                    var autoPublish = this.autoPublish;
+                    return $http.post(baseUrl + '/export/' + caseId + '/' + server + '/' + autoPublish, {});
                 }
             };
 
