@@ -118,8 +118,7 @@
                     return defer.promise;
                 },
 
-                export: function(caseId, server) {
-                    var autoPublish = this.autoPublish;
+                export: function(caseId, server, autoPublish) {
                     return $http.post(baseUrl + '/export/' + caseId + '/' + server + '/' + autoPublish, {});
                 }
             };

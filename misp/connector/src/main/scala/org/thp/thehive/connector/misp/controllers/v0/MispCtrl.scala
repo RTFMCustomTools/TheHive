@@ -15,7 +15,7 @@ import play.api.mvc.{Action, AnyContent, Results}
 import javax.inject.{Inject, Singleton}
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.{Success, Try}
+import scala.util.Success
 
 @Singleton
 class MispCtrl @Inject() (

@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{ExecutionContext, Future}
-import scala.tools.nsc.profile.EventType.value
 import scala.util.Try
 
 case class TheHiveMispClientConfig(
@@ -181,11 +180,8 @@ class TheHiveMispClient(
       .map(_ => HealthStatus.Ok)
       .recover { case _ => HealthStatus.Error }
 
-
   def updateAutoPublish(value: Boolean): Unit = {
-
     this.autoPublish = value
-
   }
 
 }

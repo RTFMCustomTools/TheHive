@@ -12,10 +12,9 @@ import org.thp.thehive.services.CaseOps._
 import org.thp.thehive.services.ObservableOps._
 import org.thp.thehive.services.{AlertSrv, AttachmentSrv, CaseSrv, OrganisationSrv}
 import play.api.Logger
-import java.util.Date
 
+import java.util.Date
 import javax.inject.{Inject, Singleton}
-import org.checkerframework.checker.units.qual.s
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try
@@ -176,18 +175,15 @@ class MispExportSrv @Inject() (
       client.organisationFilter(organisationSrv.current).exists
     }
 
-
   def updateAutoPublish(client: TheHiveMispClient, v: Boolean): Boolean = {
     client.updateAutoPublish(v)
-    v
+    true
   }
-
 
   def export(mispId: String, `case`: Case with Entity, autoPublish: Boolean)(implicit authContext: AuthContext, ec: ExecutionContext): Future[String] = {
     logger.info(s"Exporting case ${`case`.number} to MISP $mispId")
     for {
       client  <- getMispClient(mispId)
-//      _       <- Future(client.updateAutoPublish(true))
       _       <- if (updateAutoPublish(client, autoPublish)) Future.successful(()) else Future.failed(AuthorizationError(s"You cannot set to auto-export case to MISP $mispId"))
       _       <- if (canExport(client)) Future.successful(()) else Future.failed(AuthorizationError(s"You cannot export case to MISP $mispId"))
       orgName <- Future.fromTry(client.currentOrganisationName)
