@@ -122,7 +122,7 @@ class TheHiveMispClient(
     val exportObservableTags: Boolean,
     includedTheHiveOrganisations: Seq[String],
     excludedTheHiveOrganisations: Seq[String],
-    var autoPublish: Boolean
+    val autoPublish: Boolean
 ) extends MispClient(
       name,
       baseUrl,
@@ -173,15 +173,11 @@ class TheHiveMispClient(
   }
 
   override def getStatus(implicit ec: ExecutionContext): Future[JsObject] =
-    super.getStatus.map(_ + ("purpose" -> JsString(purpose.toString)) + ("url" -> JsString(baseUrl)))
+    super.getStatus.map(_ + ("purpose" -> JsString(purpose.toString)) + ("url" -> JsString(baseUrl)) + ("autoPublish" -> JsBoolean(autoPublish)))
 
   def getHealth(implicit ec: ExecutionContext): Future[HealthStatus.Value] =
     getVersion
       .map(_ => HealthStatus.Ok)
       .recover { case _ => HealthStatus.Error }
-
-  def updateAutoPublish(value: Boolean): Unit = {
-    this.autoPublish = value
-  }
 
 }

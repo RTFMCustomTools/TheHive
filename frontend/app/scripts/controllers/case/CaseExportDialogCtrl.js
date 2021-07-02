@@ -10,9 +10,9 @@
             this.mode = '';
             //this.autoPublish = false;
 
-            _.each(config.servers, function(item) {
-                item.autoPublish = false
-            })
+//            _.each(config.servers, function(item) {
+//                item.autoPublish = false
+//            })
 
             this.servers = _.filter(config.servers, function(server) {
                 return !server.purpose || (server.purpose === 'ImportAndExport' || server.purpose === 'ExportOnly');
