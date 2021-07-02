@@ -21,15 +21,13 @@
                     <td>
                         <h4>{{server.name}}</h4>
                     </td>
-
                     <td>
                         <div>
                             <input type="checkbox" id="autoPublish" name="autoPublish"
-                                ng-click="dialog.toogleAutoPublish(server)">
+                                ng-click="dialog.toogleAutoPublish(server)" ng-checked="{{server.autoPublish}}">
                             <label for="autoPublish">Auto Publish</label>
                         </div>
                     </td>
-
                     <td width="150">
                         <button class="btn btn-block pull-right"
                             ng-class="{'btn-primary': dialog.existingExports[server], 'btn-warning': !dialog.existingExports[server]}"

@@ -32,7 +32,8 @@ class MispClient(
     excludedOrganisations: Seq[String],
     whitelistOrganisations: Seq[String],
     excludedTags: Set[String],
-    whitelistTags: Set[String]
+    whitelistTags: Set[String],
+    autoPublish: Boolean
 ) {
   lazy val logger: Logger                              = Logger(getClass)
   val strippedUrl: String                              = baseUrl.replaceFirst("/*$", "")

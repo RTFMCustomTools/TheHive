@@ -133,7 +133,8 @@ class TheHiveMispClient(
       excludedOrganisations,
       whitelistOrganisations,
       excludedTags,
-      whitelistTags
+      whitelistTags,
+      autoPublish
     ) {
 
   @Inject() def this(config: TheHiveMispClientConfig, mat: Materializer) =
