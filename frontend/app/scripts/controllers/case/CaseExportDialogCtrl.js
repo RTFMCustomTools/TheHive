@@ -8,6 +8,7 @@
 
             this.caze = caze;
             this.mode = '';
+
             this.servers = _.filter(config.servers, function(server) {
                 return !server.purpose || (server.purpose === 'ImportAndExport' || server.purpose === 'ExportOnly');
             });
@@ -48,11 +49,15 @@
                 $uibModalInstance.close();
             };
 
+            this.toogleAutoPublish = function(server) {
+                server.autoPublish = !server.autoPublish;
+            }
+
             this.export = function(server) {
                 self.loading = true;
                 self.failures = [];
 
-                MispSrv.export(self.caze._id, server.name)
+                MispSrv.export(self.caze._id, server.name, server.autoPublish)
                 .then(function(response){
                     var success = 0,
                         failure = 0;

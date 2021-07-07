@@ -11,10 +11,11 @@ import org.thp.thehive.models.{HealthStatus, Organisation}
 import play.api.libs.json._
 import play.api.libs.ws.WSClient
 import play.api.libs.ws.ahc.AhcWSClientConfig
-
 import javax.inject.Inject
+
 import scala.concurrent.duration.Duration
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.Try
 
 case class TheHiveMispClientConfig(
     name: String,
@@ -132,7 +133,8 @@ class TheHiveMispClient(
       excludedOrganisations,
       whitelistOrganisations,
       excludedTags,
-      whitelistTags
+      whitelistTags,
+      autoPublish
     ) {
 
   @Inject() def this(config: TheHiveMispClientConfig, mat: Materializer) =
@@ -172,10 +174,11 @@ class TheHiveMispClient(
   }
 
   override def getStatus(implicit ec: ExecutionContext): Future[JsObject] =
-    super.getStatus.map(_ + ("purpose" -> JsString(purpose.toString)) + ("url" -> JsString(baseUrl)))
+    super.getStatus.map(_ + ("purpose" -> JsString(purpose.toString)) + ("url" -> JsString(baseUrl)) + ("autoPublish" -> JsBoolean(autoPublish)))
 
   def getHealth(implicit ec: ExecutionContext): Future[HealthStatus.Value] =
     getVersion
       .map(_ => HealthStatus.Ok)
       .recover { case _ => HealthStatus.Error }
+
 }

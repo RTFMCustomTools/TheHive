@@ -33,17 +33,17 @@ rpmPrefix := Some(defaultLinuxInstallLocation.value)
 
 linuxPackageMappings in Rpm := configWithNoReplace((linuxPackageMappings in Rpm).value)
 
-packageBin in Rpm := {
-  import scala.sys.process._
-  val rpmFile = (packageBin in Rpm).value
-  Process(
-    "rpm" ::
-      "--define" :: "_gpg_name TheHive Project" ::
-      "--define" :: "_signature gpg" ::
-      "--define" :: "__gpg_check_password_cmd /bin/true" ::
-      "--define" :: "__gpg_sign_cmd %{__gpg} gpg --batch --no-verbose --no-armor --use-agent --no-secmem-warning -u \"%{_gpg_name}\" -sbo %{__signature_filename} %{__plaintext_filename}" ::
-      "--addsign" :: rpmFile.toString ::
-      Nil
-  ).!!
-  rpmFile
-}
+//packageBin in Rpm := {
+//  import scala.sys.process._
+//  val rpmFile = (packageBin in Rpm).value
+//  Process(
+//    "rpm" ::
+//      "--define" :: "_gpg_name TheHive Project" ::
+//      "--define" :: "_signature gpg" ::
+//      "--define" :: "__gpg_check_password_cmd /bin/true" ::
+//      "--define" :: "__gpg_sign_cmd %{__gpg} gpg --batch --no-verbose --no-armor --use-agent --no-secmem-warning -u \"%{_gpg_name}\" -sbo %{__signature_filename} %{__plaintext_filename}" ::
+//      "--addsign" :: rpmFile.toString ::
+//      Nil
+//  ).!!
+//  rpmFile
+//}

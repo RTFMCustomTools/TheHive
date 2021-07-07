@@ -12,8 +12,8 @@ import org.thp.thehive.services.AlertOps._
 import org.thp.thehive.services.CaseOps._
 import org.thp.thehive.services.{AlertSrv, CaseSrv, OrganisationSrv}
 import play.api.mvc.{Action, AnyContent, Results}
-
 import javax.inject.{Inject, Singleton}
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Success
 
@@ -36,7 +36,7 @@ class MispCtrl @Inject() (
         Success(Results.NoContent)
       }
 
-  def exportCase(mispId: String, caseIdOrNumber: String): Action[AnyContent] =
+  def exportCase(mispId: String, caseIdOrNumber: String, autoPublish: String): Action[AnyContent] =
     entrypoint("export case into MISP")
       .asyncAuth { implicit authContext =>
         for {
@@ -46,7 +46,7 @@ class MispCtrl @Inject() (
               .can(Permissions.manageShare)
               .getOrFail("Case")
           })
-          _ <- mispExportSrv.export(mispId, c)
+          _ <- mispExportSrv.export(mispId, c, if (autoPublish.equalsIgnoreCase("true")) true else false)
         } yield Results.NoContent
       }
 

@@ -15,7 +15,8 @@ class Router @Inject() (mispCtrl: MispCtrl) extends SimpleRouter {
 //    case GET(p"/_cleanAlerts") => mispCtrl.cleanMispAlerts
 //    case GET(p"/_syncAllAlerts")            => syncAllAlerts
 //    case GET(p"/_syncArtifacts")            => syncArtifacts
-    case POST(p"/export/$caseId/$mispName") => mispCtrl.exportCase(mispName, caseId)
+//    case POST(p"/export/$caseId/$mispName") => mispCtrl.exportCase(mispName, caseId)
+    case POST(p"/export/$caseId/$mispName/$auto") => mispCtrl.exportCase(mispName, caseId, auto)
     case r                                  => throw NotFoundError(s"${r.uri} not found")
   }
 }

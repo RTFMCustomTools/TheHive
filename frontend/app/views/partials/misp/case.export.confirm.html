@@ -4,7 +4,8 @@
 <div class="modal-body misp-export">
     <div ng-if="dialog.mode !== 'error'">
         <p>
-            You are about to export the case <strong>{{dialog.caze.title}}</strong> to one of the following MISP servers:
+            You are about to export the case <strong>{{dialog.caze.title}}</strong> to one of the following MISP
+            servers:
         </p>
 
         <table class="mt-m table table-striped valigned">
@@ -20,12 +21,22 @@
                     <td>
                         <h4>{{server.name}}</h4>
                     </td>
+                    <td>
+                        <div>
+                            <input type="checkbox" id="autoPublish" name="autoPublish"
+                                ng-click="dialog.toogleAutoPublish(server)" ng-checked="{{server.autoPublish}}">
+                            <label for="autoPublish">Auto Publish</label>
+                        </div>
+                    </td>
                     <td width="150">
                         <button class="btn btn-block pull-right"
                             ng-class="{'btn-primary': dialog.existingExports[server], 'btn-warning': !dialog.existingExports[server]}"
                             ng-click="dialog.export(server)"
-                            ng-disabled="dialog.loading || server.status === 'ERROR'">{{dialog.existingExports[server] ? 'Update' : 'Export'}}</button>
+                            ng-disabled="dialog.loading || server.status === 'ERROR'">{{dialog.existingExports[server] ?
+                            'Update' : 'Export'}}</button>
                     </td>
+
+
                 </tr>
             </tbody>
         </table>
@@ -51,7 +62,8 @@
 </div>
 <div class="modal-footer text-left">
     <button class="btn btn-default" ng-click="dialog.cancel()" type="button">Cancel</button>
-    <button class="btn btn-primary pull-right" ng-if="dialog.mode === 'error'" ng-click="dialog.copyToClipboard()" type="button">
+    <button class="btn btn-primary pull-right" ng-if="dialog.mode === 'error'" ng-click="dialog.copyToClipboard()"
+        type="button">
         <i class="fa fa-copy"></i> Copy to clipboard
     </button>
 </div>

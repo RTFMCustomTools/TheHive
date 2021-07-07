@@ -118,8 +118,8 @@
                     return defer.promise;
                 },
 
-                export: function(caseId, server) {
-                    return $http.post(baseUrl + '/export/' + caseId + '/' + server, {});
+                export: function(caseId, server, autoPublish) {
+                    return $http.post(baseUrl + '/export/' + caseId + '/' + server + '/' + autoPublish, {});
                 }
             };
 

@@ -15,6 +15,7 @@ import play.api.Logger
 
 import java.util.Date
 import javax.inject.{Inject, Singleton}
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try
 
@@ -118,7 +119,7 @@ class MispExportSrv @Inject() (
     2 -> MispTag(None, "tlp:amber", None, None),
     3 -> MispTag(None, "tlp:red", None, None)
   )
-  def createEvent(client: TheHiveMispClient, `case`: Case with Entity, attributes: Seq[Attribute], extendsEvent: Option[String])(implicit
+  def createEvent(client: TheHiveMispClient, `case`: Case with Entity, attributes: Seq[Attribute], extendsEvent: Option[String], autoPublish: Boolean)(implicit
       ec: ExecutionContext
   ): Future[String] = {
     val mispTags =
@@ -131,7 +132,7 @@ class MispExportSrv @Inject() (
       info = `case`.title,
       date = `case`.startDate,
       threatLevel = math.min(4, math.max(1, 4 - `case`.severity)),
-      published = client.autoPublish,
+      published = autoPublish,
       analysis = 0,
       distribution = 0,
       attributes = attributes,
@@ -174,7 +175,9 @@ class MispExportSrv @Inject() (
       client.organisationFilter(organisationSrv.current).exists
     }
 
-  def export(mispId: String, `case`: Case with Entity)(implicit authContext: AuthContext, ec: ExecutionContext): Future[String] = {
+
+
+  def export(mispId: String, `case`: Case with Entity, autoPublish: Boolean)(implicit authContext: AuthContext, ec: ExecutionContext): Future[String] = {
     logger.info(s"Exporting case ${`case`.number} to MISP $mispId")
     for {
       client  <- getMispClient(mispId)
@@ -183,7 +186,7 @@ class MispExportSrv @Inject() (
       maybeAlert = db.roTransaction(implicit graph => getAlert(`case`, orgName))
       _          = logger.debug(maybeAlert.fold("Related MISP event doesn't exist")(a => s"Related MISP event found : ${a.sourceRef}"))
       attributes = db.roTransaction(implicit graph => removeDuplicateAttributes(getAttributes(`case`, client.exportObservableTags)))
-      eventId <- createEvent(client, `case`, attributes, maybeAlert.map(_.sourceRef))
+      eventId <- createEvent(client, `case`, attributes, maybeAlert.map(_.sourceRef), autoPublish)
       _       <- Future.fromTry(db.tryTransaction(implicit graph => createAlert(client, `case`, eventId)))
     } yield eventId
   }

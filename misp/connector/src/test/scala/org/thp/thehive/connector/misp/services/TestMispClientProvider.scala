@@ -69,6 +69,7 @@ class TestMispClientProvider @Inject() (Action: DefaultActionBuilder, implicit v
       exportCaseTags = true,
       exportObservableTags = true,
       includedTheHiveOrganisations = Seq("*"),
-      excludedTheHiveOrganisations = Nil
+      excludedTheHiveOrganisations = Nil,
+      autoPublish = false
     )
 }
