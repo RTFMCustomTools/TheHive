@@ -94,7 +94,7 @@ class MispExportSrv @Inject() (
       .get(`case`)
       .alert
       .filterBySource(orgName)
-      .filterByType("misp")
+      .filterByType("misp-export")
       .headOption
 
   def getAttributes(`case`: Case with Entity, exportTags: Boolean)(implicit graph: Graph, authContext: AuthContext): Iterator[Attribute] =
@@ -149,7 +149,7 @@ class MispExportSrv @Inject() (
       org <- organisationSrv.getOrFail(authContext.organisation)
       alert <- client.currentOrganisationName.map { orgName =>
         Alert(
-          `type` = "misp",
+          `type` = "misp-export",
           source = orgName,
           sourceRef = eventId,
           externalLink = Some(s"${client.baseUrl}/events/$eventId"),

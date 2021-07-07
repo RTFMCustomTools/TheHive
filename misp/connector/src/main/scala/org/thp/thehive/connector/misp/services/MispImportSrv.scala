@@ -50,7 +50,7 @@ class MispImportSrv @Inject() (
       .currentOrganisationName
       .map { mispOrganisation =>
         Alert(
-          `type` = "misp",
+          `type` = "misp-import",
           source = mispOrganisation,
           sourceRef = event.id,
           externalLink = Some(s"${client.strippedUrl}/events/${event.id}"),
@@ -188,7 +188,7 @@ class MispImportSrv @Inject() (
         alertSrv
           .startTraversal
           .filterBySource(mispOrganisation)
-          .filterByType("misp")
+          .filterByType("misp-import")
           .has(_.organisationId, orgId)
           .value(a => a.lastSyncDate)
           .max
@@ -352,7 +352,7 @@ class MispImportSrv @Inject() (
     eventToAlert(client, event, organisation._id).flatMap { alert =>
       alertSrv
         .startTraversal
-        .getBySourceId("misp", mispOrganisation, event.id)
+        .getBySourceId("misp-import", mispOrganisation, event.id)
         .has(_.organisationId, organisation._id)
         .richAlert
         .headOption match {
