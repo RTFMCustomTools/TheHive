@@ -1,5 +1,32 @@
 # Change Log
 
+## [4.1.8](https://github.com/TheHive-Project/TheHive/milestone/77) (2021-07-19)
+
+**Implemented enhancements:**
+
+- [Feature Request] Improve SSO user auto creation [\#2127](https://github.com/TheHive-Project/TheHive/issues/2127)
+- [Feature Request] Add simple improvements in alerts list [\#2129](https://github.com/TheHive-Project/TheHive/issues/2129)
+
+**Closed issues:**
+
+- typo in entrypoint man for "cortex-hostnames" [\#2114](https://github.com/TheHive-Project/TheHive/issues/2114)
+
+**Fixed bugs:**
+
+- [Bug] TheHive updates an alert from an updated MISP event but not the promoted Case [\#2110](https://github.com/TheHive-Project/TheHive/issues/2110)
+
+## [4.1.7](https://github.com/TheHive-Project/TheHive/milestone/76) (2021-07-05)
+
+**Implemented enhancements:**
+
+- [Enhancement] Copy the database even if the schema version doesn't match (with force flag) [\#2105](https://github.com/TheHive-Project/TheHive/issues/2105)
+
+**Fixed bugs:**
+
+- [Bug] Issue with Migration 3.5.1 -> 4.1.6 [\#2089](https://github.com/TheHive-Project/TheHive/issues/2089)
+- [Bug] Fix serialization for case number messages [\#2107](https://github.com/TheHive-Project/TheHive/issues/2107)
+- [Bug] Case is removed if the assignee is removed [\#2109](https://github.com/TheHive-Project/TheHive/issues/2109)
+
 ## [4.1.6](https://github.com/TheHive-Project/TheHive/milestone/75) (2021-06-14)
 
 **Implemented enhancements:**
